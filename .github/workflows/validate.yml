@@ -50,4 +50,14 @@ jobs:
           assert 'default="sonnet"' in reviewer, "Sonnet must remain the default critic"
           assert "Claude Opus critiques" not in metadata, "UI metadata must not imply Opus is the default"
 
-          print("Packaging invariants: OK")
+          assert "final required critic PASS applies only to the exact project state it reviewed" in skill, (
+              "Final-diff review invariant is missing"
+          )
+          assert "A critic PASS with only MEDIUM/LOW observations does not trigger another implementation/review round" in skill, (
+              "PASS must not create optional polishing loops"
+          )
+          assert "do not spawn additional review agents that can cause further fixes" in skill, (
+              "Post-PASS reviewer freeze is missing"
+          )
+
+          print("Packaging and workflow invariants: OK")
