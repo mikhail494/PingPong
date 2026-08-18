@@ -1,7 +1,7 @@
-﻿interface:
+interface:
   display_name: "PingPong"
-  short_description: "Codex builds, Claude Opus critiques"
-  default_prompt: "Use PingPong to build this task and independently critique it with Claude Opus until the quality gate passes."
+  short_description: "Codex builds, Claude independently critiques"
+  default_prompt: "Use PingPong to implement this task. Use Claude Sonnet as the independent critic by default, verify the findings, fix valid issues, rerun deterministic gates, and stop only when the required review passes or USER_REQUIRED is reached."
 
 policy:
   allow_implicit_invocation: false

@@ -1,0 +1,53 @@
+name: Validate
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Compile reviewer
+        run: python -m py_compile scripts/claude_review.py
+
+      - name: Check reviewer CLI parsing
+        run: python scripts/claude_review.py --help
+
+      - name: Validate skill packaging invariants
+        shell: python
+        run: |
+          from pathlib import Path
+
+          skill = Path("SKILL.md").read_text(encoding="utf-8")
+          reviewer = Path("scripts/claude_review.py").read_text(encoding="utf-8")
+          metadata = Path("agents/openai.yaml").read_text(encoding="utf-8-sig")
+
+          assert skill.startswith("---\nname: pingpong\n"), "Invalid SKILL.md frontmatter"
+          assert "SKILL_DIR" in skill, "Skill-relative reviewer path is missing"
+
+          forbidden_skill_paths = (
+              ".agents\\skills\\pingpong",
+              ".codex\\skills\\PingPong",
+          )
+          for value in forbidden_skill_paths:
+              assert value not in skill, f"Hardcoded runtime path found: {value}"
+
+          assert "--permission-mode" not in reviewer, "Critic runner must not use permission-mode plan"
+          assert 'default="sonnet"' in reviewer, "Sonnet must remain the default critic"
+          assert "Claude Opus critiques" not in metadata, "UI metadata must not imply Opus is the default"
+
+          print("Packaging invariants: OK")
