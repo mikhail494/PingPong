@@ -59,5 +59,11 @@ jobs:
           assert "do not spawn additional review agents that can cause further fixes" in skill, (
               "Post-PASS reviewer freeze is missing"
           )
+          assert "all supplementary reviewer agents must finish before the final Opus gate" in skill, (
+              "Supplementary reviewers must complete before final Opus"
+          )
+          assert "If their findings lead to project changes, rerun deterministic gates and obtain a Sonnet PASS" in skill, (
+              "Supplementary-review fixes must be revalidated before Opus"
+          )
 
           print("Packaging and workflow invariants: OK")
