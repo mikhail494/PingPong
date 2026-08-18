@@ -51,6 +51,14 @@ Maximum Opus review rounds: 3.
 
 Use only when explicitly requested.
 
+## Task authoring contract
+
+A PingPong task may be written directly by the user or prepared by another planning chat.
+
+Treat everything after the invocation mode as the authoritative task scope. A strong task states the goal, constraints or non-goals, acceptance criteria, and required tests or gates.
+
+Do not require special planner syntax beyond the PingPong invocation itself. Do not silently expand the task. If material domain semantics are missing, resolve them only from authoritative project evidence; otherwise stop with USER_REQUIRED rather than inventing them.
+
 ## Self-test
 
 `$pingpong self-test`
