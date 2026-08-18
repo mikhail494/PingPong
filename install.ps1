@@ -4,40 +4,38 @@ param(
 
 $ErrorActionPreference = "Stop"
 
-$source = Join-Path $PSScriptRoot "skill"
+$source = $PSScriptRoot
 $target = Join-Path $env:USERPROFILE ".agents\skills\pingpong"
 
 if (-not (Test-Path (Join-Path $source "SKILL.md"))) {
-    throw "Source SKILL.md not found: $source"
+    throw "SKILL.md not found: $source"
 }
 
 if (-not (Test-Path (Join-Path $source "scripts\claude_review.py"))) {
-    throw "Claude reviewer not found in source tree."
+    throw "Claude reviewer not found."
 }
 
 if ((Test-Path $target) -and (-not $NoBackup)) {
     $stamp = Get-Date -Format "yyyyMMdd-HHmmss"
-    $backupRoot = Join-Path $env:USERPROFILE ".agents\skills"
-    $backup = Join-Path $backupRoot "pingpong-backup-$stamp"
-
+    $backup = Join-Path $env:USERPROFILE ".agents\skills\pingpong-backup-$stamp"
     Copy-Item $target $backup -Recurse -Force
-
-    Write-Host "Backup created:"
-    Write-Host "  $backup"
+    Write-Host "Backup: $backup"
 }
 
 Remove-Item $target -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Force -Path $target | Out-Null
-Copy-Item (Join-Path $source "*") $target -Recurse -Force
+
+Copy-Item (Join-Path $source "SKILL.md") $target -Force
+Copy-Item (Join-Path $source "scripts") $target -Recurse -Force
+
+if (Test-Path (Join-Path $source "agents")) {
+    Copy-Item (Join-Path $source "agents") $target -Recurse -Force
+}
+
+if (Test-Path (Join-Path $source "VERSION")) {
+    Copy-Item (Join-Path $source "VERSION") $target -Force
+}
 
 Write-Host ""
-Write-Host "PingPong installed."
-Write-Host "Source:"
-Write-Host "  $source"
-Write-Host "Installed:"
+Write-Host "PingPong installed globally:"
 Write-Host "  $target"
-Write-Host ""
-Write-Host "Use in Codex:"
-Write-Host '  $pingpong <task>'
-Write-Host '  $pingpong final-opus <task>'
-Write-Host '  $pingpong opus <task>'

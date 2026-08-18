@@ -1,6 +1,6 @@
 $ErrorActionPreference = "Continue"
 
-$source = Join-Path $PSScriptRoot "skill"
+$source = $PSScriptRoot
 $installed = Join-Path $env:USERPROFILE ".agents\skills\pingpong"
 
 function Check-Command {

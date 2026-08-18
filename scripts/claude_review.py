@@ -392,7 +392,6 @@ No prose outside JSON.
         "--model", args.model,
         "--output-format", "json",
         "--max-turns", "1",
-        "--permission-mode", "plan",
         "--tools", "",
         "--system-prompt", CRITIC_SYSTEM_PROMPT,
     ]
