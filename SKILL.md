@@ -32,12 +32,14 @@ Use Sonnet for the normal build/fix loop.
 Once Sonnet returns PASS:
 
 1. Run one independent Opus review.
-2. If Opus returns PASS, finish.
+2. If Opus returns PASS, freeze the reviewed project diff and finish without further implementation changes or extra reviewer agents.
 3. If Opus returns FAIL, independently verify the findings.
 4. Fix only valid BLOCKER/HIGH findings.
 5. Rerun deterministic gates.
 6. Run Opus one final time.
 7. If Opus still does not PASS, stop and report rather than looping indefinitely.
+
+Any project-file change after a required Opus PASS invalidates that PASS. If such a change occurs, the deterministic gates and required final critic must review the new diff again within the configured round limit; otherwise do not report PingPong PASS.
 
 This is the preferred mode for important changes where Opus should be conserved.
 
@@ -194,26 +196,43 @@ For every BLOCKER/HIGH:
 - fix it if valid,
 - reject it if invalid only with concrete evidence.
 
-MEDIUM/LOW do not block completion unless they expose a real requirement violation.
+MEDIUM/LOW do not block completion unless independent verification shows that they actually expose an explicit requirement, correctness, security, or safety violation.
+
+A critic PASS with only MEDIUM/LOW observations does not trigger another implementation/review round merely because the suggestions are useful. Report optional observations instead of polishing indefinitely.
 
 Do not perform unrelated cleanup merely because Claude suggested it.
 
 ### 7. Repeat
 
-After valid fixes:
+After valid blocking fixes:
 
 - rerun deterministic gates,
 - rerun the selected Critic.
 
+Do not repeat solely to address optional MEDIUM/LOW findings after PASS.
+
 Respect the model-specific round limits.
 
-### 8. PASS
+### 8. PASS and finality invariant
 
 Completion requires:
 
 - required deterministic gates PASS,
 - final required Claude review PASS,
 - no unresolved valid BLOCKER/HIGH.
+
+The final required critic PASS applies only to the exact project state it reviewed.
+
+After the final required PASS:
+
+- freeze implementation changes;
+- do not spawn additional review agents that can cause further fixes;
+- do not perform cleanup, hardening, refactors, or optional improvements;
+- re-check `git status --short` and the relevant Git diff immediately before reporting completion.
+
+If any project file changes after that PASS, the PASS is invalidated. Rerun deterministic gates and the required final critic on the new state within the configured round limit. If the round limit does not permit another required review, stop and report that final verification was not completed; do not claim PASS.
+
+Changes limited to PingPong's own review/audit logs under `.pingpong/` do not invalidate the reviewed project diff unless those files are part of the task or project deliverable.
 
 ### 9. USER_REQUIRED
 
@@ -236,6 +255,8 @@ Report:
 - final verdict,
 - valid findings fixed,
 - Claude findings rejected with evidence,
+- optional MEDIUM/LOW observations left unimplemented after PASS,
+- whether the project diff changed after the final required critic PASS,
 - USER_REQUIRED status if applicable.
 
 Example:
@@ -246,3 +267,4 @@ Critic: Sonnet
 Sonnet rounds: 2
 Final Opus gate: PASS
 Deterministic gates: PASS
+Post-final-pass project changes: none
