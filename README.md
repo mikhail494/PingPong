@@ -67,6 +67,14 @@ CLAUDE_CRITIC_OK
 $pingpong <task>
 ```
 
+### If another chat writes your Codex tasks
+
+Give that chat the repository URL and this rule:
+
+> Write implementation prompts as ready-to-paste PingPong commands. Use `$pingpong` by default, `$pingpong final-opus` for important or high-risk changes, and `$pingpong opus` only when I explicitly ask. Make each task self-contained: goal, constraints, acceptance criteria, and required tests. Never invent missing domain rules.
+
+Then paste the generated command into the Codex chat for the target repository.
+
 ## Modes
 
 | Mode | Critic | Intended use |
