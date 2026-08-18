@@ -15,6 +15,7 @@ The project is pre-1.0, so workflow and packaging details may still change betwe
 - Project changes after the final required PASS now invalidate that PASS and require gates plus the required final critic to run again.
 - A PASS containing only optional MEDIUM/LOW observations no longer triggers extra implementation/review rounds merely for polishing.
 - Extra reviewer agents must not cause project changes after the final required PASS.
+- Supplementary project/Codex reviewer agents are explicitly allowed before the final Opus gate; any fixes they trigger must be included in the state rechecked by deterministic gates and Sonnet before Opus runs.
 
 ## v0.1.1 - 2026-08-18
 
