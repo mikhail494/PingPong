@@ -23,6 +23,19 @@ Claude is invoked through the local Claude Code CLI with tools disabled for the 
 
 The critic does not decide project architecture merely because an alternative design is possible. Blocking findings must be evidence-backed.
 
+### Supplementary reviewers
+
+A project workflow or Codex may use additional specialized read-only reviewer agents when they materially help verify the task. They are supplemental rather than authoritative:
+
+- only Codex may mutate project files;
+- they do not replace deterministic gates;
+- they do not replace the required Claude critic for the selected PingPong mode;
+- they must not expand task scope merely to polish the implementation.
+
+In `final-opus` mode, all supplementary reviews must complete **before** the final Opus gate. If their findings cause project changes after a Sonnet PASS, deterministic gates and Sonnet must review the changed state again within the configured round limit before Opus runs.
+
+This preserves the useful specialization of extra reviewers while ensuring that the final Opus verdict applies to the actual final project diff.
+
 ## Trust ordering
 
 PingPong uses the following ordering when sources disagree:
@@ -82,9 +95,21 @@ PingPong intentionally prevents infinite model-to-model debate.
 
 - Default Sonnet mode: at most 4 critic rounds.
 - Full Opus mode: at most 3 critic rounds.
-- Final-Opus mode: Sonnet handles the normal loop; after Sonnet passes, Opus performs one independent final review. If Opus finds a valid blocking issue, Codex may fix it and Opus gets one final check.
+- Final-Opus mode: Sonnet handles the normal loop; any permitted supplementary reviewers complete before the transition to Opus; after the current project state has Sonnet PASS, Opus performs one independent final review. If Opus finds a valid blocking issue, Codex may fix it and Opus gets one final check.
+
+If supplementary review changes the project after a Sonnet PASS, that PASS no longer authorizes the transition to Opus. Gates and Sonnet must review the new state again within the normal Sonnet round budget.
 
 If the required verdict still cannot be reached, PingPong stops and reports the state instead of looping forever.
+
+## Finality invariant
+
+The final required critic PASS applies only to the exact project state it reviewed.
+
+After the final required PASS, implementation is frozen. No additional reviewer agent, cleanup pass, refactor, or optional hardening step may mutate the project and still rely on the previous PASS.
+
+If a project file changes after the final PASS, that verdict is invalidated. Deterministic gates and the required final critic must review the new state again within the configured round limit before PingPong may report PASS.
+
+A critic PASS containing only optional `MEDIUM`/`LOW` observations does not by itself justify another build/review cycle.
 
 ## Domain-sensitive review
 
@@ -107,6 +132,7 @@ PingPong does not aim to:
 - replace deterministic tests;
 - make Claude an autonomous code editor;
 - spawn a second Codex process as Builder;
+- turn supplementary reviewers into additional project authorities;
 - silently choose expensive models;
 - invent missing product or domain requirements;
 - hide disagreement between the critic and builder.
