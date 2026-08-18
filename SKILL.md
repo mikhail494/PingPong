@@ -29,7 +29,11 @@ Maximum Sonnet review rounds: 4.
 
 Use Sonnet for the normal build/fix loop.
 
-Once Sonnet returns PASS:
+Before transitioning to the final Opus gate, any project-required or Codex-selected supplementary read-only reviewer agents may run. They are supplemental only: Codex remains the only model allowed to modify project files, deterministic gates still outrank model opinions, and supplementary reviewers never replace the required Sonnet/Opus critics.
+
+If supplementary reviewers cause Codex to make project changes after a Sonnet PASS, that Sonnet PASS no longer triggers the final Opus gate. Rerun deterministic gates and Sonnet on the changed project state within the configured Sonnet round limit. Transition to Opus only after all supplementary reviews and resulting fixes are complete and the current project state has the required Sonnet PASS.
+
+Once the current project state has Sonnet PASS and all permitted supplementary reviews are complete:
 
 1. Run one independent Opus review.
 2. If Opus returns PASS, freeze the reviewed project diff and finish without further implementation changes or extra reviewer agents.
@@ -213,6 +217,22 @@ Do not repeat solely to address optional MEDIUM/LOW findings after PASS.
 
 Respect the model-specific round limits.
 
+### 7A. Supplementary reviewers
+
+Project-required or Codex-selected supplementary reviewer agents are allowed when they materially help verify the task. They must be read-only; only Codex may mutate project files.
+
+In `final-opus` mode, all supplementary reviewer agents must finish before the final Opus gate. If their findings lead to project changes, rerun deterministic gates and obtain a Sonnet PASS on that changed state before transitioning to Opus.
+
+Supplementary reviewers:
+
+- do not replace deterministic gates;
+- do not replace the required Claude critic for the selected PingPong mode;
+- must not silently expand task scope;
+- do not justify optional cleanup or polishing loops;
+- must never run after the final required Opus PASS in a way that can cause further project changes.
+
+The final Opus review should therefore see the project state after all permitted supplementary reviews and all accepted fixes.
+
 ### 8. PASS and finality invariant
 
 Completion requires:
@@ -256,6 +276,7 @@ Report:
 - valid findings fixed,
 - Claude findings rejected with evidence,
 - optional MEDIUM/LOW observations left unimplemented after PASS,
+- supplementary reviewer agents used before the final critic, if any,
 - whether the project diff changed after the final required critic PASS,
 - USER_REQUIRED status if applicable.
 
@@ -265,6 +286,7 @@ PingPong PASS
 Builder: Codex
 Critic: Sonnet
 Sonnet rounds: 2
+Supplementary reviewers: none
 Final Opus gate: PASS
 Deterministic gates: PASS
 Post-final-pass project changes: none
