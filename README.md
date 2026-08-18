@@ -34,7 +34,7 @@ Clone the repository directly into your global Codex skills directory.
 
 Windows PowerShell:
 
-    git clone <REPOSITORY_URL> "$env:USERPROFILE\.agents\skills\pingpong"
+    git clone https://github.com/mikhail494/PingPong.git "$env:USERPROFILE\.agents\skills\pingpong"
 
 Then run:
 
