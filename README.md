@@ -97,7 +97,7 @@ flowchart LR
     V -->|FAIL| E[Codex verifies findings]
     E --> B
     V -->|USER_REQUIRED| H[Human decision]
-    V -->|PASS| D[Done]
+    V -->|PASS| D[Freeze reviewed diff]
 ```
 
 For each task PingPong:
@@ -109,7 +109,8 @@ For each task PingPong:
 5. receives a structured `PASS`, `FAIL`, or `USER_REQUIRED` verdict;
 6. requires Codex to independently verify every blocking finding;
 7. fixes only findings supported by evidence;
-8. repeats with hard round limits.
+8. repeats with hard round limits;
+9. freezes the project diff after the final required PASS.
 
 Deterministic correctness gates outrank both models.
 
@@ -122,6 +123,10 @@ Claude is not the implementer and is instructed to remain read-only. Blocking fi
 - **USER_REQUIRED**: a material decision cannot be resolved without a human or domain expert.
 
 Codex may reject a Claude finding, but only with concrete evidence.
+
+A `PASS` with only optional `MEDIUM`/`LOW` observations does not trigger another implementation/review round just because the suggestions are useful. Optional observations are reported instead of creating an open-ended polishing loop.
+
+The final required critic verdict applies to the **exact project diff it reviewed**. After the final PASS, implementation changes are frozen. If a project file changes afterwards, that PASS is invalid and the deterministic gates plus required final critic must run again before PingPong may report completion. Extra reviewer agents must not mutate the project after the final required PASS.
 
 See [docs/DESIGN.md](docs/DESIGN.md) for the full review model.
 
@@ -171,7 +176,8 @@ PingPong is deliberately asymmetric:
 - deterministic gates outrank model opinions;
 - unrelated user work must not be reset, reverted, stashed, or deleted;
 - missing domain semantics must not be invented;
-- ambiguous material decisions stop with `USER_REQUIRED`.
+- ambiguous material decisions stop with `USER_REQUIRED`;
+- the final required PASS must match the final project diff.
 
 This makes the loop useful for domain-sensitive code where a plausible guess can be worse than an explicit stop.
 
