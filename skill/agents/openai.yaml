@@ -1,0 +1,7 @@
+﻿interface:
+  display_name: "PingPong"
+  short_description: "Codex builds, Claude Opus critiques"
+  default_prompt: "Use PingPong to build this task and independently critique it with Claude Opus until the quality gate passes."
+
+policy:
+  allow_implicit_invocation: false
