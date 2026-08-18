@@ -10,6 +10,11 @@ The project is pre-1.0, so workflow and packaging details may still change betwe
 - Added repository validation that makes no LLM requests.
 - Added architecture, contribution, and security documentation.
 - Corrected Codex skill UI metadata to reflect Sonnet as the default critic.
+- Added task-authoring guidance for planning chats that generate ready-to-paste PingPong commands.
+- Added a finality invariant: the final critic PASS applies only to the exact project diff it reviewed.
+- Project changes after the final required PASS now invalidate that PASS and require gates plus the required final critic to run again.
+- A PASS containing only optional MEDIUM/LOW observations no longer triggers extra implementation/review rounds merely for polishing.
+- Extra reviewer agents must not cause project changes after the final required PASS.
 
 ## v0.1.1 - 2026-08-18
 
