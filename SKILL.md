@@ -57,9 +57,18 @@ Use only when explicitly requested.
 
 Use Sonnet.
 
+`SKILL_DIR` is not a predefined environment variable. When PingPong is
+invoked, determine the actual absolute directory from which this `SKILL.md`
+was loaded and use that directory as the skill root. If the loaded path cannot
+be determined unambiguously, stop rather than guessing. Before executing a
+reviewer command, explicitly set `SKILL_DIR` in the current shell/session to
+that directory, or substitute the absolute path directly. The reviewer script
+is always a sibling under the skill root; never assume `.agents`, `.codex`, or
+another fixed global skill directory.
+
 Run:
 
-python "$env:USERPROFILE\.agents\skills\pingpong\scripts\claude_review.py" --repo . --self-test --model sonnet
+python "$SKILL_DIR/scripts/claude_review.py" --repo . --self-test --model sonnet
 
 Success requires:
 
@@ -140,13 +149,16 @@ A failing deterministic correctness gate cannot be overridden by either model.
 
 ### 5. Claude review
 
-Global reviewer path:
+Use the reviewer script from the installed skill directory:
 
-`$env:USERPROFILE\.agents\skills\pingpong\scripts\claude_review.py`
+`$SKILL_DIR/scripts/claude_review.py`
+
+Here `SKILL_DIR` is the shell/session variable explicitly set to the absolute
+directory from which the loaded `SKILL.md` came, as described in Self-test.
 
 For Sonnet:
 
-python "$env:USERPROFILE\.agents\skills\pingpong\scripts\claude_review.py" `
+python "$SKILL_DIR/scripts/claude_review.py" `
   --repo . `
   --model sonnet `
   --mode implementation `
@@ -156,7 +168,7 @@ python "$env:USERPROFILE\.agents\skills\pingpong\scripts\claude_review.py" `
 
 For Opus:
 
-python "$env:USERPROFILE\.agents\skills\pingpong\scripts\claude_review.py" `
+python "$SKILL_DIR/scripts/claude_review.py" `
   --repo . `
   --model opus `
   --mode implementation `

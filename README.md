@@ -22,33 +22,20 @@ You stay in the Codex chat.
 
 Give Codex this repository URL and say:
 
-> Install this repository globally as the `pingpong` Codex skill. Verify that Claude Code is available, run PingPong doctor, and do not modify the current project.
+> Install https://github.com/mikhail494/PingPong globally as the `pingpong` Codex skill. Verify that Claude Code is available, run PingPong doctor, and do not modify the current project.
 
 After installation, use:
 
     $pingpong <task>
 
-## Manual install
-
-Clone the repository directly into your global Codex skills directory.
-
-Windows PowerShell:
-
-    git clone https://github.com/mikhail494/PingPong.git "$env:USERPROFILE\.agents\skills\pingpong"
-
-Then run:
-
-    powershell -NoProfile -ExecutionPolicy Bypass -File "$env:USERPROFILE\.agents\skills\pingpong\doctor.ps1"
-
 ## Requirements
 
-- Codex
 - Claude Code CLI
 - Git
 - Python
-- authenticated Codex and Claude sessions
+- A Claude Code session with whatever authentication and plan access your Claude installation requires
 
-PingPong uses your locally installed Claude Code CLI. Check your own Claude authentication, plan and billing configuration before use.
+PingPong uses the current Codex session as Builder and does not spawn `codex exec` or require separate Codex CLI authentication. It uses your locally installed Claude Code CLI as Critic. Doctor checks that the CLI is available, but deliberately does not make an LLM request and therefore cannot verify Claude authentication.
 
 ## Modes
 
@@ -124,12 +111,6 @@ Doctor makes no LLM request and consumes no model usage.
 From the repository:
 
     powershell -NoProfile -ExecutionPolicy Bypass -File .\doctor.ps1
-
-## Update
-
-If installed with Git:
-
-    git -C "$env:USERPROFILE\.agents\skills\pingpong" pull
 
 ## Status
 
