@@ -116,7 +116,7 @@ From the repository:
 
 Early working prototype.
 
-Current version: 0.1.0
+Current version: 0.1.1
 
 Tested first on Windows with Codex + Claude Code.
 
