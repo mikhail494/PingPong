@@ -157,6 +157,15 @@ PingPong uses the **current Codex session** as Builder. It does not spawn `codex
 
 PingPong itself does not manage Claude billing or authentication. It uses whatever configuration your local Claude Code CLI is already using.
 
+## Entire checkpoints (optional)
+
+PingPong can be paired with [Entire](https://entire.io/) to preserve the agent
+context behind commits. Entire is an optional observability layer; it does not
+replace GitHub and it does not import old web-chat sessions retroactively.
+
+For the Windows setup, Codex CLI workflow, troubleshooting, and privacy notes,
+see [docs/ENTIRE.md](docs/ENTIRE.md).
+
 ## Doctor
 
 `doctor.ps1` performs local packaging/dependency checks and makes **no LLM request**.
