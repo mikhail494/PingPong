@@ -67,6 +67,14 @@ entire checkpoint list
 Checkpoints are stored as Git refs under `entire/checkpoints/v1`; they do not
 add files or extra commits to the working branch.
 
+## If Home step 03 stays red
+
+- Check that the correct repository is selected.
+- Run `entire status`.
+- Run `entire checkpoint list`.
+- An ordinary Git commit does not create a checkpoint.
+- The commit must follow a real Codex CLI session that was captured by Entire.
+
 ## Common confusion
 
 ### “The repository has commits, but Entire shows no activity”
