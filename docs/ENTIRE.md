@@ -72,6 +72,7 @@ add files or extra commits to the working branch.
 - Check that the correct repository is selected.
 - Run `entire status`.
 - Run `entire checkpoint list`.
+- If the hooks are missing or stale, run `entire enable -y --agent codex` again from the repository root.
 - An ordinary Git commit does not create a checkpoint.
 - The commit must follow a real Codex CLI session that was captured by Entire.
 
