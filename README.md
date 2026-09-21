@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="docs/hero.svg" alt="PingPong — Codex builds, Claude critiques, deterministic gates decide" width="100%" />
+</p>
+
 <div align="center">
 
 # PingPong
@@ -5,13 +9,35 @@
 **Cross-model development review for Codex.**  
 Codex builds. Claude critiques. Deterministic gates decide.
 
-[![Release](https://img.shields.io/github/v/release/mikhail494/PingPong)](https://github.com/mikhail494/PingPong/releases)
-[![Validate](https://github.com/mikhail494/PingPong/actions/workflows/validate.yml/badge.svg)](https://github.com/mikhail494/PingPong/actions/workflows/validate.yml)
-[![License](https://img.shields.io/github/license/mikhail494/PingPong)](LICENSE)
+[![Release](https://img.shields.io/github/v/release/mikhail494/PingPong?style=flat-square)](https://github.com/mikhail494/PingPong/releases)
+[![Validate](https://img.shields.io/github/actions/workflow/status/mikhail494/PingPong/validate.yml?branch=main&style=flat-square&label=validate)](https://github.com/mikhail494/PingPong/actions/workflows/validate.yml)
+[![License](https://img.shields.io/github/license/mikhail494/PingPong?style=flat-square)](LICENSE)
+![Codex Skill](https://img.shields.io/badge/Codex-Skill-111111?style=flat-square)
+![Claude Critic](https://img.shields.io/badge/Claude-read--only%20critic-111111?style=flat-square)
+![Windows](https://img.shields.io/badge/tested-Windows-111111?style=flat-square)
+
+[Design](docs/DESIGN.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/mikhail494/PingPong/releases)
 
 </div>
 
 PingPong is a Codex skill that closes the review loop between two different models. The current Codex session remains the **Builder/Fixer**; a locally installed Claude Code CLI acts as an independent, read-only **Critic**. Codex verifies the critique instead of blindly applying it, fixes valid findings, reruns deterministic checks, and repeats until the required quality gate passes.
+
+
+## At a glance
+
+| | PingPong |
+| --- | --- |
+| **Builder / Fixer** | Current Codex session |
+| **Independent critic** | Claude Code CLI |
+| **Default critic** | Claude Sonnet |
+| **High-stakes modes** | Final Opus or full Opus, explicitly requested |
+| **Verdicts** | `PASS` · `FAIL` · `USER_REQUIRED` |
+| **Source of truth** | Deterministic gates + explicit task + authoritative project specs |
+| **Mutation policy** | Codex may edit; Claude critic stays read-only |
+| **Loop policy** | Bounded rounds; no infinite model debate |
+
+> **The point is not “two AIs agree.”** The point is separation of roles: one model implements, another tries to falsify the result, and deterministic evidence outranks both.
+
 
 ```text
 Task in Codex
@@ -38,6 +64,8 @@ Codex → manual review → corrective prompt → Codex → manual review → ..
 PingPong turns that into a bounded workflow with explicit roles, structured verdicts, deterministic checks, and an escape hatch for ambiguity.
 
 ## Quick start
+
+The shortest path is: install once, verify the critic once, then use `$pingpong` as the wrapper around implementation tasks.
 
 ### 1. Install from GitHub
 
@@ -216,7 +244,7 @@ PingPong/
 
 ## Current status
 
-**v0.1.1** — early working prototype.
+**v0.1.1** — early working prototype with passing zero-LLM repository validation.
 
 The GitHub-native installation flow has been clean-room tested on Windows with Codex + Claude Code, including a real Claude Sonnet self-test. The project is still young: Windows is the primary tested environment and the public API/packaging may evolve before `1.0`.
 
