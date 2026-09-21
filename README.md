@@ -16,7 +16,7 @@ Codex builds. Claude critiques. Deterministic gates decide.
 ![Claude Critic](https://img.shields.io/badge/Claude-read--only%20critic-111111?style=flat-square)
 ![Windows](https://img.shields.io/badge/tested-Windows-111111?style=flat-square)
 
-[Design](docs/DESIGN.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/mikhail494/PingPong/releases)
+[Quick start](#quick-start) · [Design](docs/DESIGN.md) · [FAQ](docs/FAQ.md) · [Security](SECURITY.md) · [Contributing](CONTRIBUTING.md) · [Changelog](CHANGELOG.md) · [Releases](https://github.com/mikhail494/PingPong/releases)
 
 </div>
 
@@ -232,10 +232,18 @@ PingPong/
 │   └── openai.yaml          # Skill UI metadata
 ├── doctor.ps1               # Zero-LLM local diagnostics
 ├── docs/
-│   └── DESIGN.md            # Architecture and review protocol
-├── .github/workflows/
-│   └── validate.yml         # Zero-LLM repository validation
+│   ├── hero.svg             # Repository banner
+│   ├── DESIGN.md            # Architecture and review protocol
+│   ├── ENTIRE.md            # Optional Entire checkpoint integration
+│   └── FAQ.md               # Common questions
+├── .github/
+│   ├── workflows/
+│   │   └── validate.yml     # Zero-LLM repository validation
+│   ├── ISSUE_TEMPLATE/      # Structured issue forms
+│   ├── pull_request_template.md
+│   └── CODEOWNERS
 ├── CHANGELOG.md
+├── SUPPORT.md
 ├── CONTRIBUTING.md
 ├── SECURITY.md
 ├── VERSION
