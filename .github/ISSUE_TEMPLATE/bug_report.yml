@@ -1,0 +1,67 @@
+name: Bug report
+description: Report a reproducible PingPong defect
+title: "[Bug]: "
+labels: ["bug"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for reporting a bug. Please remove secrets, private code, and model transcripts that you cannot share publicly.
+  - type: textarea
+    id: summary
+    attributes:
+      label: What happened?
+      description: Describe the observed behavior and what you expected instead.
+      placeholder: PingPong did X, but I expected Y.
+    validations:
+      required: true
+  - type: textarea
+    id: repro
+    attributes:
+      label: Minimal reproduction
+      description: Include the command, relevant repository state, and the smallest steps that reproduce the issue.
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: PingPong version
+      placeholder: v0.1.1 or commit SHA
+    validations:
+      required: true
+  - type: dropdown
+    id: mode
+    attributes:
+      label: Mode
+      options:
+        - default / Sonnet
+        - final-opus
+        - opus
+        - self-test
+        - doctor.ps1
+        - installation / packaging
+        - other
+    validations:
+      required: true
+  - type: textarea
+    id: environment
+    attributes:
+      label: Environment
+      description: OS, Codex version, Claude Code version, Python version, and Git version where relevant.
+    validations:
+      required: true
+  - type: textarea
+    id: logs
+    attributes:
+      label: Sanitized output or logs
+      description: Remove credentials, private repository content, and sensitive prompts before posting.
+      render: text
+  - type: checkboxes
+    id: checks
+    attributes:
+      label: Pre-submit checks
+      options:
+        - label: I removed secrets and private material from this report.
+          required: true
+        - label: I checked existing issues for the same problem.
+          required: true
