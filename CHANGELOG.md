@@ -6,6 +6,8 @@ The project is pre-1.0, so workflow and packaging details may still change betwe
 
 ## Unreleased
 
+- Polished the public repository presentation with a banner, richer README navigation, issue forms, PR checklist, CODEOWNERS, FAQ, and support guidance.
+
 - Reworked the public documentation around the Builder/Critic model.
 - Added repository validation that makes no LLM requests.
 - Added architecture, contribution, and security documentation.
