@@ -1,0 +1,49 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1400" height="420" viewBox="0 0 1400 420" role="img" aria-labelledby="title desc">
+  <title id="title">PingPong</title>
+  <desc id="desc">Codex builds, Claude critiques, deterministic gates decide.</desc>
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b0d10"/>
+      <stop offset="1" stop-color="#161a20"/>
+    </linearGradient>
+    <filter id="glow" x="-30%" y="-30%" width="160%" height="160%">
+      <feGaussianBlur stdDeviation="10" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+  </defs>
+  <rect width="1400" height="420" rx="32" fill="url(#bg)"/>
+  <rect x="1.5" y="1.5" width="1397" height="417" rx="30.5" fill="none" stroke="#2b313b" stroke-width="3"/>
+
+  <g font-family="Inter,Segoe UI,Arial,sans-serif">
+    <text x="700" y="112" fill="#ffffff" font-size="64" font-weight="800" text-anchor="middle" letter-spacing="-2">PingPong</text>
+    <text x="700" y="154" fill="#9aa4b2" font-size="24" text-anchor="middle">Cross-model development review for Codex</text>
+
+    <g transform="translate(160 238)">
+      <rect width="310" height="94" rx="18" fill="#11151a" stroke="#39414d" stroke-width="2"/>
+      <circle cx="46" cy="47" r="18" fill="#ffffff"/>
+      <text x="82" y="42" fill="#ffffff" font-size="24" font-weight="700">Codex</text>
+      <text x="82" y="68" fill="#8d98a6" font-size="16">Builder / Fixer</text>
+    </g>
+
+    <g transform="translate(930 238)">
+      <rect width="310" height="94" rx="18" fill="#11151a" stroke="#39414d" stroke-width="2"/>
+      <circle cx="264" cy="47" r="18" fill="#ffffff"/>
+      <text x="34" y="42" fill="#ffffff" font-size="24" font-weight="700">Claude</text>
+      <text x="34" y="68" fill="#8d98a6" font-size="16">Read-only Critic</text>
+    </g>
+
+    <g transform="translate(555 229)" filter="url(#glow)">
+      <rect width="290" height="112" rx="22" fill="#f3f4f6"/>
+      <text x="145" y="43" fill="#0c0f13" font-size="18" font-weight="700" text-anchor="middle">DETERMINISTIC GATES</text>
+      <text x="145" y="72" fill="#39414d" font-size="15" text-anchor="middle">tests · lint · typecheck · build</text>
+      <text x="145" y="94" fill="#39414d" font-size="15" text-anchor="middle">evidence beats opinion</text>
+    </g>
+
+    <path d="M476 285 C515 285 525 285 548 285" stroke="#7f8a99" stroke-width="4" fill="none"/>
+    <path d="M852 285 C875 285 887 285 924 285" stroke="#7f8a99" stroke-width="4" fill="none"/>
+    <path d="M548 286 l-16 -10 v20 z" fill="#7f8a99"/>
+    <path d="M924 286 l-16 -10 v20 z" fill="#7f8a99"/>
+
+    <text x="700" y="386" fill="#6f7a89" font-size="18" text-anchor="middle">build → test → critique → verify → fix → PASS</text>
+  </g>
+</svg>
