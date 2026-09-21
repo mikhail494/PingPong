@@ -1,0 +1,33 @@
+name: Feature request
+description: Propose a focused improvement to PingPong
+title: "[Feature]: "
+labels: ["enhancement"]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        PingPong intentionally keeps a strict Builder/Critic split. Requests that change that model should explain the safety and verification implications.
+  - type: textarea
+    id: problem
+    attributes:
+      label: Problem
+      description: What concrete workflow problem are you trying to solve?
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: Proposed behavior
+      description: Describe the smallest useful change.
+    validations:
+      required: true
+  - type: textarea
+    id: invariants
+    attributes:
+      label: Invariants and compatibility
+      description: Note any impact on model roles, deterministic gates, verdict semantics, installation, or existing commands.
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: Alternatives considered
+      description: Optional. What can users do today instead?
